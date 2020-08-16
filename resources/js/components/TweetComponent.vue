@@ -1,25 +1,37 @@
 <template>
     <div class="container">
-        <div class="panel-body">
-            <input v-if="editMode" type="text"
-            v-model="tweet.content">
-            <p v-else>{{ tweet.content }}</p>
-        </div>
-        <div class="panel-footer">
-            <button class="btn btn-default"
-            v-on:click="tweetUpdate()"
-            v-if="editMode">
-                Update
-            </button>
-            <button class="btn btn-default"
-            v-on:click="tweetEdit()"
-            v-else>
-                Edit
-            </button>
-            <button class="btn btn-default"
-            v-on:click="tweetDelete()">
-                Delete
-            </button>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <input v-if="editMode" type="text" class="form-control"
+                v-model="tweet.content">
+                <p v-else>{{ tweet.content }}</p>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-info"
+                v-on:click="tweetUpdate()"
+                v-if="editMode">
+                    Update
+                </button>
+                <button type="button" class="btn btn-success"
+                v-on:click="tweetEdit()"
+                v-else>
+                    Edit
+                </button>
+                <button type="button" class="btn btn-danger"
+                v-on:click="tweetDelete()">
+                    Delete
+                </button>
+                <button type="button" class="btn btn-warning"
+                v-on:click="deleteLike()"
+                v-if="like">
+                    Dislike
+                </button>
+                <button type="button" class="btn btn-success"
+                v-on:click="newLike()"
+                v-else>
+                    Like
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -29,11 +41,22 @@ export default {
     props: ['tweet'],
     data () {
         return {
-            editMode: false
+            editMode: false,
+            like: false
         }
     },
     mounted () {
         console.log('Tweet component Mounted')
+        axios.get(`/api/tweets/${this.tweet.id}/like`)
+        .then((response) => {
+            if(response.data != '') {
+                this.like = true
+            } else {
+                this.like = false
+            }
+            console.log(response)
+            console.log(this.like)
+        })
     },
 
     methods: {
@@ -56,6 +79,22 @@ export default {
                 const tweet = response.data;
                 this.$emit('update', tweet)
             }) 
+        },
+        newLike () {
+            const args = {
+                user_id: this.tweet.user_id
+            }
+            axios.post(`/api/tweets/${this.tweet.id}/like`, args)
+            .then((response) => {
+                this.like = true
+            })
+        },
+
+        deleteLike () {
+            axios.delete(`/api/tweets/${this.tweet.id}/like/${this.tweet.user_id}`)
+            .then(() => {
+                this.like = false
+            })
         }
     }
 }

@@ -2037,38 +2037,80 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tweet'],
   data: function data() {
     return {
-      editMode: false
+      editMode: false,
+      like: false
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
     console.log('Tweet component Mounted');
+    axios.get("/api/tweets/".concat(this.tweet.id, "/like")).then(function (response) {
+      if (response.data != '') {
+        _this.like = true;
+      } else {
+        _this.like = false;
+      }
+
+      console.log(response);
+      console.log(_this.like);
+    });
   },
   methods: {
     tweetDelete: function tweetDelete() {
-      var _this = this;
+      var _this2 = this;
 
       axios["delete"]("/api/tweets/".concat(this.tweet.id)).then(function () {
-        _this.$emit('delete');
+        _this2.$emit('delete');
       });
     },
     tweetEdit: function tweetEdit() {
       this.editMode = true;
     },
     tweetUpdate: function tweetUpdate() {
-      var _this2 = this;
+      var _this3 = this;
 
       var args = {
         content: this.tweet.content
       };
       axios.put("/api/tweets/".concat(this.tweet.id), args).then(function (response) {
-        _this2.editMode = false;
+        _this3.editMode = false;
         var tweet = response.data;
 
-        _this2.$emit('update', tweet);
+        _this3.$emit('update', tweet);
+      });
+    },
+    newLike: function newLike() {
+      var _this4 = this;
+
+      var args = {
+        user_id: this.tweet.user_id
+      };
+      axios.post("/api/tweets/".concat(this.tweet.id, "/like"), args).then(function (response) {
+        _this4.like = true;
+      });
+    },
+    deleteLike: function deleteLike() {
+      var _this5 = this;
+
+      axios["delete"]("/api/tweets/".concat(this.tweet.id, "/like/").concat(this.tweet.user_id)).then(function () {
+        _this5.like = false;
       });
     }
   }
@@ -37780,70 +37822,104 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "panel-body" }, [
-      _vm.editMode
-        ? _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.tweet.content,
-                expression: "tweet.content"
-              }
-            ],
-            attrs: { type: "text" },
-            domProps: { value: _vm.tweet.content },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+    _c("div", { staticClass: "panel panel-default" }, [
+      _c("div", { staticClass: "panel-body" }, [
+        _vm.editMode
+          ? _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tweet.content,
+                  expression: "tweet.content"
                 }
-                _vm.$set(_vm.tweet, "content", $event.target.value)
-              }
-            }
-          })
-        : _c("p", [_vm._v(_vm._s(_vm.tweet.content))])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "panel-footer" }, [
-      _vm.editMode
-        ? _c(
-            "button",
-            {
-              staticClass: "btn btn-default",
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.tweet.content },
               on: {
-                click: function($event) {
-                  return _vm.tweetUpdate()
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.tweet, "content", $event.target.value)
                 }
               }
-            },
-            [_vm._v("\n            Update\n        ")]
-          )
-        : _c(
-            "button",
-            {
-              staticClass: "btn btn-default",
-              on: {
-                click: function($event) {
-                  return _vm.tweetEdit()
-                }
-              }
-            },
-            [_vm._v("\n            Edit\n        ")]
-          ),
+            })
+          : _c("p", [_vm._v(_vm._s(_vm.tweet.content))])
+      ]),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-default",
-          on: {
-            click: function($event) {
-              return _vm.tweetDelete()
+      _c("div", { staticClass: "panel-footer" }, [
+        _vm.editMode
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-info",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.tweetUpdate()
+                  }
+                }
+              },
+              [_vm._v("\n                Update\n            ")]
+            )
+          : _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.tweetEdit()
+                  }
+                }
+              },
+              [_vm._v("\n                Edit\n            ")]
+            ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-danger",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                return _vm.tweetDelete()
+              }
             }
-          }
-        },
-        [_vm._v("\n            Delete\n        ")]
-      )
+          },
+          [_vm._v("\n                Delete\n            ")]
+        ),
+        _vm._v(" "),
+        _vm.like
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-warning",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.deleteLike()
+                  }
+                }
+              },
+              [_vm._v("\n                Dislike\n            ")]
+            )
+          : _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.newLike()
+                  }
+                }
+              },
+              [_vm._v("\n                Like\n            ")]
+            )
+      ])
     ])
   ])
 }
