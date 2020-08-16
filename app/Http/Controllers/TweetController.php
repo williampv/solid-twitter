@@ -7,6 +7,12 @@ use App\Tweet;
 
 class TweetController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class TweetController extends Controller
      */
     public function index()
     {
-        return Tweet::all();
+        return Tweet::where('user_id', auth()->id())->get();
     }
 
     /**
@@ -35,7 +41,12 @@ class TweetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tweet = new Tweet();
+        $tweet->content = $request->content;
+        $tweet->user_id = auth()->id();
+        $tweet->save();
+
+        return $tweet;
     }
 
     /**
@@ -69,9 +80,12 @@ class TweetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $tweet = Tweet::find($id);
+        $tweet->content = $request->content;
+        $tweet->save();
 
+        return $tweet;
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -80,6 +94,7 @@ class TweetController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tweet = Tweet::find($id);
+        $tweet->delete();
     }
 }

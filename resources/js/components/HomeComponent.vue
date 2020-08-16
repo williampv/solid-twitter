@@ -1,10 +1,13 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <input type="text">
-            <button>Publish</button>
-        </div>
-        <tweet-component v-for="tweet in tweets" :key="tweet.id" :tweet="tweet">
+        <form-component @new="addTweet"></form-component>
+        
+        <tweet-component 
+        v-for="(tweet, index) in tweets" 
+        :key="tweet.id" 
+        :tweet="tweet"
+        @delete="deleteTweet(index)"
+        @update="updateTweet(index, ...arguments)">
         </tweet-component>
     </div>
 </template>
@@ -13,18 +16,25 @@
 export default {
     data () {
         return {
-            info: null,
-            tweets: [{
-                'id': 1,
-                'content': 'First tweet'
-            }]
+            tweets: []
         }
     },
 
     mounted() {
-        axios
-            .get('http://127.0.0.1:8000/api/tweets')
-            .then(response => (this.info = response.data))
+        axios.get('/api/tweets')
+            .then(response => (this.tweets = response.data))
+    },
+
+    methods: {
+        addTweet(tweet) {
+            this.tweets.push(tweet)
+        },
+        deleteTweet(index) {
+            this.tweets.splice(index, 1)
+        },
+        updateTweet(index, tweet) {
+            this.tweets[index] = tweet
+        }
     }
 }
 </script>

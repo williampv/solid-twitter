@@ -23,6 +23,7 @@ Vue.use(Vuetify);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('home-component', require('./components/HomeComponent.vue').default);
+Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('tweet-component', require('./components/TweetComponent.vue').default);
 
 
