@@ -20,7 +20,7 @@ class TweetController extends Controller
      */
     public function index()
     {
-        return Tweet::where('user_id', auth()->id())->get();
+        return Tweet::where('user_id', auth()->id())->latest()->get();
     }
 
     /**
@@ -57,7 +57,7 @@ class TweetController extends Controller
      */
     public function show($id)
     {
-        //
+        return Tweet::find($id);
     }
 
     /**
