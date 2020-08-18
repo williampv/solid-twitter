@@ -11,6 +11,14 @@ window.Vue = require('vue');
 import Vuetify from 'vuetify';
 Vue.use(Vuetify);
 
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+import routes from './routes';
+const router = new VueRouter({ 
+    mode: 'history',
+    routes 
+})
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -33,7 +41,9 @@ Vue.component('tweet-component', require('./components/TweetComponent.vue').defa
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
 const app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
+    router
 });
