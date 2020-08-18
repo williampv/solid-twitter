@@ -2,6 +2,7 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-body">
+                <p>User: {{ tweet.user_id }}</p>
                 <input v-if="editMode" type="text" class="form-control"
                 v-model="tweet.content">
                 <p v-else>{{ tweet.content }}</p>
@@ -45,9 +46,10 @@ export default {
             like: false
         }
     },
+
     mounted () {
         console.log('Tweet component Mounted')
-        axios.get(`/api/tweets/${this.tweet.id}/like`)
+        axios.get(`/api/tweets/${this.tweet.id}/like/${this.tweet.user_id}`)
         .then((response) => {
             if(response.data != '') {
                 this.like = true

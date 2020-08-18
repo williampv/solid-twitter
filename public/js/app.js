@@ -2049,6 +2049,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tweet'],
   data: function data() {
@@ -2061,7 +2062,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     console.log('Tweet component Mounted');
-    axios.get("/api/tweets/".concat(this.tweet.id, "/like")).then(function (response) {
+    axios.get("/api/tweets/".concat(this.tweet.id, "/like/").concat(this.tweet.user_id)).then(function (response) {
       if (response.data != '') {
         _this.like = true;
       } else {
@@ -37824,6 +37825,8 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "panel panel-default" }, [
       _c("div", { staticClass: "panel-body" }, [
+        _c("p", [_vm._v("User: " + _vm._s(_vm.tweet.user_id))]),
+        _vm._v(" "),
         _vm.editMode
           ? _c("input", {
               directives: [
@@ -97251,8 +97254,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Will\xampp7320\htdocs\twitter\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Will\xampp7320\htdocs\twitter\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Mike\xampp739\htdocs\twitter\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Mike\xampp739\htdocs\twitter\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

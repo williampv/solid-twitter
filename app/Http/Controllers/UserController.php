@@ -3,32 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Tweet;
 
-class TweetController extends Controller
+class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
-    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return Tweet::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -41,12 +24,7 @@ class TweetController extends Controller
      */
     public function store(Request $request)
     {
-        $tweet = new Tweet();
-        $tweet->content = $request->content;
-        $tweet->user_id = auth()->id();
-        $tweet->save();
-
-        return $tweet;
+        //
     }
 
     /**
@@ -56,17 +34,6 @@ class TweetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        return Tweet::find($id);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }
@@ -80,12 +47,9 @@ class TweetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $tweet = Tweet::find($id);
-        $tweet->content = $request->content;
-        $tweet->save();
-
-        return $tweet;
+        //
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -94,7 +58,6 @@ class TweetController extends Controller
      */
     public function destroy($id)
     {
-        $tweet = Tweet::find($id);
-        $tweet->delete();
+        //
     }
 }

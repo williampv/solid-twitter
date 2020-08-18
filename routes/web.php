@@ -24,4 +24,5 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::prefix('api')->group( function () {
     Route::apiResource('tweets', 'TweetController');
     Route::apiResource('tweets/{id}/like', 'LikeController');
+    Route::apiResource('users/{id}/like', 'UserController');
 });
