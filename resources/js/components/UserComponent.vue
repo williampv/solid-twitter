@@ -21,7 +21,7 @@ export default {
     },
 
     mounted() {
-        axios.get('/api/tweets')
+        axios.get(`/api/tweets/show`)
             .then(response => (this.tweets = response.data))
     },
 

@@ -57,7 +57,7 @@ class TweetController extends Controller
      */
     public function show($id)
     {
-        return Tweet::find($id);
+        return Tweet::where('user_id', auth()->id())->get();
     }
 
     /**
