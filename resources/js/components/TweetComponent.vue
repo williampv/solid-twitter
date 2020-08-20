@@ -56,8 +56,6 @@ export default {
             } else {
                 this.like = false
             }
-            console.log(response)
-            console.log(this.like)
         })
     },
 

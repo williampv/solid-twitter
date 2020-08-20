@@ -1,5 +1,7 @@
 <template>
     <div>
+        <info-component></info-component>
+
         <form-component @new="addTweet"></form-component>
         
         <tweet-component 

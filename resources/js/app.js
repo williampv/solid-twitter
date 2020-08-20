@@ -32,6 +32,7 @@ const router = new VueRouter({
 
 Vue.component('app-component', require('./components/AppComponent.vue').default);
 Vue.component('home-component', require('./components/HomeComponent.vue').default);
+Vue.component('info-component', require('./components/InfoComponent.vue').default);
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('tweet-component', require('./components/TweetComponent.vue').default);
 
