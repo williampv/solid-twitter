@@ -31,7 +31,6 @@ const router = new VueRouter({
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('app-component', require('./components/AppComponent.vue').default);
-Vue.component('home-component', require('./components/HomeComponent.vue').default);
 Vue.component('info-component', require('./components/InfoComponent.vue').default);
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('tweet-component', require('./components/TweetComponent.vue').default);

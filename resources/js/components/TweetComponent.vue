@@ -2,6 +2,9 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-body">
+                <router-link :to="'/profile/'+tweet.user_id">
+                    <img class="card-img-top" src="https://365psd.com/images/istock/previews/1009/100996291-male-avatar-profile-picture-vector.jpg" alt="Card image" style="max-width: 40px">
+                </router-link>
                 <p>User: {{ tweet.user_id }}</p>
                 <input v-if="editMode" type="text" class="form-control"
                 v-model="tweet.content">
@@ -43,20 +46,28 @@ export default {
     data () {
         return {
             editMode: false,
-            like: false
+            like: false,
+            accountId: ''
         }
     },
 
     mounted () {
         console.log('Tweet component Mounted')
-        axios.get(`/api/tweets/${this.tweet.id}/like/${this.tweet.user_id}`)
+        axios.get(`/api/account`)
         .then((response) => {
-            if(response.data != '') {
-                this.like = true
-            } else {
-                this.like = false
-            }
+            //console.log("ACCOUNT: ", response)
+            this.accountId = response.data.id
+            axios.get(`/api/tweets/${this.tweet.id}/like/${this.accountId}`)
+            .then((response) => {
+                if(response.data != '') {
+                    this.like = true
+                } else {
+                    this.like = false
+                }
+            })
         })
+        
+
     },
 
     methods: {
@@ -82,7 +93,7 @@ export default {
         },
         newLike () {
             const args = {
-                user_id: this.tweet.user_id
+                user_id: this.accountId
             }
             axios.post(`/api/tweets/${this.tweet.id}/like`, args)
             .then((response) => {
@@ -91,7 +102,7 @@ export default {
         },
 
         deleteLike () {
-            axios.delete(`/api/tweets/${this.tweet.id}/like/${this.tweet.user_id}`)
+            axios.delete(`/api/tweets/${this.tweet.id}/like/${this.accountId}`)
             .then(() => {
                 this.like = false
             })

@@ -13,6 +13,7 @@
 
 <script>
 export default {
+    props: ['id'],
     data () {
         return {
             name: ''
@@ -21,7 +22,7 @@ export default {
 
     mounted () {
         console.log('Info component Mounted')
-        axios.get('/api/account')
+        axios.get(`/api/users/${this.id}/like`)
         .then((response) => {
             this.name = response.data.name
         })

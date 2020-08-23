@@ -1,9 +1,9 @@
 import Home from './components/HomeComponent.vue'
-import User from './components/UserComponent.vue'
+import Profile from './components/ProfileComponent.vue'
 
 const routes = [
     { path: '/', component: Home, name: 'home' },
-    { path: '/user', component: User, name: 'user' }
+    { path: '/profile/:id', component: Profile, name: 'profile', props: true}
 ]
 
 export default routes

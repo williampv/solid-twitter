@@ -1,6 +1,6 @@
 <template>
     <div>
-        <info-component></info-component>
+        <info-component :id="id"></info-component>
 
         <form-component @new="addTweet"></form-component>
         
@@ -16,14 +16,15 @@
 
 <script>
 export default {
+    props: ['id'],
     data () {
         return {
-            tweets: []
+            tweets: [],
         }
     },
 
     mounted() {
-        axios.get(`/api/tweets/show`)
+        axios.get(`/api/tweets/${this.id}`)
             .then(response => (this.tweets = response.data))
     },
 
