@@ -1,43 +1,46 @@
 <template>
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-body">
+    <v-container>
+        <v-card class="tweet_card">
+            <v-card-title>
                 <router-link :to="'/profile/'+tweet.user_id">
                     <img class="card-img-top" src="https://365psd.com/images/istock/previews/1009/100996291-male-avatar-profile-picture-vector.jpg" alt="Card image" style="max-width: 40px">
                 </router-link>
-                <p>User: {{ tweet.user_id }}</p>
-                <input v-if="editMode" type="text" class="form-control"
-                v-model="tweet.content">
+                <router-link :to="'/profile/'+tweet.user_id">
+                    <p style="margin-bottom: 0">&nbsp;{{ userName }}</p>
+                </router-link>
+            </v-card-title>
+            <v-card-text>
+                <input v-if="editMode" type="text" class="form-control" v-model="tweet.content">
                 <p v-else>{{ tweet.content }}</p>
-            </div>
-            <div class="panel-footer">
-                <button type="button" class="btn btn-info"
+            </v-card-text>
+            <v-card-actions>
+                <v-btn color="blue"
                 v-on:click="tweetUpdate()"
                 v-if="editMode">
                     Update
-                </button>
-                <button type="button" class="btn btn-success"
+                </v-btn>
+                <v-btn color="blue"
                 v-on:click="tweetEdit()"
                 v-else>
                     Edit
-                </button>
-                <button type="button" class="btn btn-danger"
+                </v-btn>
+                <v-btn color="error" 
                 v-on:click="tweetDelete()">
                     Delete
-                </button>
-                <button type="button" class="btn btn-warning"
+                </v-btn>
+                <v-btn color="yellow"
                 v-on:click="deleteLike()"
                 v-if="like">
                     Dislike
-                </button>
-                <button type="button" class="btn btn-success"
+                </v-btn>
+                <v-btn color="pink"
                 v-on:click="newLike()"
                 v-else>
                     Like
-                </button>
-            </div>
-        </div>
-    </div>
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-container>
 </template>
 
 <script>
@@ -47,7 +50,8 @@ export default {
         return {
             editMode: false,
             like: false,
-            accountId: ''
+            accountId: '',
+            userName: ''
         }
     },
 
@@ -57,6 +61,7 @@ export default {
         .then((response) => {
             //console.log("ACCOUNT: ", response)
             this.accountId = response.data.id
+            
             axios.get(`/api/tweets/${this.tweet.id}/like/${this.accountId}`)
             .then((response) => {
                 if(response.data != '') {
@@ -65,6 +70,11 @@ export default {
                     this.like = false
                 }
             })
+        })
+
+        axios.get(`/api/users/${this.tweet.user_id}/like`)
+        .then((response) => {
+            this.userName = response.data.name
         })
         
 
@@ -110,3 +120,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.tweet_card {
+    min-width: 500px;
+    padding: 15px
+}
+</style>

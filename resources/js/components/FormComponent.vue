@@ -6,9 +6,9 @@
                 <input type="text" class="form-control" name="tweet"
                 v-model="content">
             </div>
-            <button type="submit" class="btn btn-primary">
-                Publish
-            </button>
+            <div class="my-2">
+                <v-btn type="submit" color="primary">Publish</v-btn>
+            </div>
         </form>
     </div>
 </template>

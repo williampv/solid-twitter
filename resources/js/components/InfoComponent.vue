@@ -1,14 +1,47 @@
 <template>
-    <div class="container">
-        <div class="card" style="width:400px; margin: 0 auto; align-items: center;">
-            <img class="card-img-top" src="https://365psd.com/images/istock/previews/1009/100996291-male-avatar-profile-picture-vector.jpg" alt="Card image" style="max-width: 100px">
-            <div class="card-body">
-                <h4 class="card-title">{{ name }}</h4>
-                <p class="card-text">Some example text.</p>
-                <button class="btn btn-primary">Follow</Button>
-            </div>
-        </div>
-    </div>
+    <v-container>
+        <v-card
+        class="mx-auto"
+        max-width="434"
+        tile
+        >
+            <v-img
+                height="100%"
+                src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+            >
+                <v-row
+                align="end"
+                class="fill-height"
+                >
+                <v-col
+                    align-self="start"
+                    class="pa-0"
+                    cols="12"
+                >
+                    <v-avatar
+                    class="profile"
+                    color="grey"
+                    size="164"
+                    tile
+                    >
+                    <v-img src="https://365psd.com/images/istock/previews/1009/100996291-male-avatar-profile-picture-vector.jpg"></v-img>
+                    </v-avatar>
+                </v-col>
+                <v-col class="py-0">
+                    <v-list-item
+                    color="rgba(0, 0, 0, .4)"
+                    dark
+                    >
+                    <v-list-item-content>
+                        <v-list-item-title class="title">{{ name }}</v-list-item-title>
+                        <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
+                    </v-list-item-content>
+                    </v-list-item>
+                </v-col>
+                </v-row>
+            </v-img>
+        </v-card>
+    </v-container>
 </template>
 
 <script>
