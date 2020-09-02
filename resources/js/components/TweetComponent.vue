@@ -21,11 +21,13 @@
                 </v-btn>
                 <v-btn color="blue"
                 v-on:click="tweetEdit()"
-                v-else>
+                v-else 
+                :disabled="userDisable">
                     Edit
                 </v-btn>
                 <v-btn color="error" 
-                v-on:click="tweetDelete()">
+                v-on:click="tweetDelete()"
+                :disabled="userDisable">
                     Delete
                 </v-btn>
                 <v-btn color="yellow"
@@ -51,7 +53,8 @@ export default {
             editMode: false,
             like: false,
             accountId: '',
-            userName: ''
+            userName: '',
+            userDisable: false
         }
     },
 
@@ -61,6 +64,10 @@ export default {
         .then((response) => {
             //console.log("ACCOUNT: ", response)
             this.accountId = response.data.id
+            
+            if(this.tweet.user_id != this.accountId) {
+                this.userDisable = true
+            }
             
             axios.get(`/api/tweets/${this.tweet.id}/like/${this.accountId}`)
             .then((response) => {

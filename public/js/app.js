@@ -2236,6 +2236,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['tweet'],
   data: function data() {
@@ -2243,7 +2245,8 @@ __webpack_require__.r(__webpack_exports__);
       editMode: false,
       like: false,
       accountId: '',
-      userName: ''
+      userName: '',
+      userDisable: false
     };
   },
   mounted: function mounted() {
@@ -2253,6 +2256,11 @@ __webpack_require__.r(__webpack_exports__);
     axios.get("/api/account").then(function (response) {
       //console.log("ACCOUNT: ", response)
       _this.accountId = response.data.id;
+
+      if (_this.tweet.user_id != _this.accountId) {
+        _this.userDisable = true;
+      }
+
       axios.get("/api/tweets/".concat(_this.tweet.id, "/like/").concat(_this.accountId)).then(function (response) {
         if (response.data != '') {
           _this.like = true;
@@ -38951,7 +38959,7 @@ var render = function() {
                 : _c(
                     "v-btn",
                     {
-                      attrs: { color: "blue" },
+                      attrs: { color: "blue", disabled: _vm.userDisable },
                       on: {
                         click: function($event) {
                           return _vm.tweetEdit()
@@ -38964,7 +38972,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: { color: "error" },
+                  attrs: { color: "error", disabled: _vm.userDisable },
                   on: {
                     click: function($event) {
                       return _vm.tweetDelete()
